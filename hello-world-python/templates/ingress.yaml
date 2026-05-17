@@ -1,15 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.ingressname}}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+
 spec:
   rules:
   - http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
-          serviceName: {{ .Values.name}}
-          servicePort: {{ .Values.port}}          
-      
+          service:
+            name: {{ .Values.name}}
+            port:
+              number: 80
